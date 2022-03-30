@@ -1,0 +1,105 @@
+--Question #1 - ANSWER: 1793
+SELECT COUNT(*)
+FROM data_analyst_jobs; 
+
+
+--Question #2 - ANSWER: ExxonMobil
+SELECT company
+FROM data_analyst_jobs
+LIMIT 10;
+
+
+--Question #3a - ANSWER: TN:21
+SELECT COUNT(*)
+FROM data_analyst_jobs
+WHERE location = 'TN';
+
+--Question #3b - ANSWER: TN or KY: 27
+SELECT COUNT(*)
+FROM data_analyst_jobs
+WHERE location = 'TN' OR location = 'KY';
+
+
+--Question #4 - ANSWER: 3
+SELECT COUNT(*)
+FROM data_analyst_jobs
+WHERE location = 'TN'
+AND star_rating > 4;
+
+
+--Question #5 - ANSWER: 151
+SELECT COUNT(*)
+FROM data_analyst_jobs
+WHERE review_count BETWEEN 500 AND 1000;
+
+
+--Question #6 - ANSWER: Nebraska
+SELECT location AS state, ROUND(AVG(star_rating), 2) AS avg_rating
+FROM data_analyst_jobs
+WHERE star_rating IS NOT NULL
+AND location IS NOT NULL
+GROUP BY state
+ORDER BY avg(star_rating) DESC;
+
+
+
+--Question #7 - ANSWER: 881
+SELECT COUNT(DISTINCT title)
+FROM data_analyst_jobs;
+
+
+--Question #8 - ANSWER: 230
+SELECT COUNT(DISTINCT title)
+FROM data_analyst_jobs
+WHERE location = 'CA';
+
+
+--Question #9a
+SELECT company, AVG(star_rating) AS avg_rating
+FROM data_analyst_jobs
+WHERE review_count > 5000
+GROUP BY company;
+
+--Question #9b - ANSWER: 184
+SELECT COUNT(company)
+FROM data_analyst_jobs
+WHERE review_count > 5000;
+
+
+/*--Question #10 - ANSWER: General Motors, Unilever, Microsoft
+						 Nike, American Express, Kaiser Permanente
+						 AVG: 4.20 (Rounded) */
+SELECT company, AVG(star_rating) AS avg_rating
+FROM data_analyst_jobs
+WHERE review_count > 5000
+GROUP BY company
+ORDER BY AVG(star_rating) DESC;
+
+
+--Question #11 - ANSWER: 1669
+SELECT COUNT(title)
+FROM data_analyst_jobs
+WHERE title ILIKE '%Analyst%';
+
+
+--Question #12 - ANSWER: "Data"
+SELECT COUNT(title)
+FROM data_analyst_jobs
+WHERE title NOT ILIKE '%Analyst%' 
+AND title NOT ILIKE '%Analytics%';
+
+
+/*--BONUS Question - ANSWER: 1. Internet and Software (62)
+					       2. Banks And Financial Services (61)
+						   3. Consulting and Business Services (57)
+						   4. Health Care (52) */
+SELECT domain AS industry, COUNT(*) AS hard_to_fill_jobs
+FROM data_analyst_jobs
+WHERE days_since_reporting > 21
+AND skill LIKE '%SQL%'
+AND domain IS NOT NULL
+GROUP BY domain
+ORDER BY COUNT(*) DESC
+LIMIT 4;
+
+
